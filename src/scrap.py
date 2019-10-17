@@ -42,24 +42,8 @@ s
             inner_dict.pop('value')
             self.entrydict[myhash] = inner_dict 
 
-
-dict_values([
-    
-    {'US-Canada Border03/01/2019 12:00:00 AMTruck Containers Full': 
-    {'border': 'US-Canada Border', 'date': '03/01/2019 12:00:00 AM', 'measure': 'Truck Containers Full', 'converted_date': datetime.datetime(2019, 3, 1, 0, 0), 'TotalEntries': 6483}}, 
-    {'US-Canada Border03/01/2019 12:00:00 AMTrains': 
-    {'border': 'US-Canada Border', 'date': '03/01/2019 12:00:00 AM', 'measure': 'Trains', 'converted_date': datetime.datetime(2019, 3, 1, 0, 0), 'TotalEntries': 19}}, 
-    {'US-Mexico Border03/01/2019 12:00:00 AMPedestrians': 
-    {'border': 'US-Mexico Border', 'date': '03/01/2019 12:00:00 AM', 'measure': 'Pedestrians', 'converted_date': datetime.datetime(2019, 3, 1, 0, 0), 'TotalEntries': 346158},
-     'US-Mexico Border02/01/2019 12:00:00 AMPedestrians':
-    {'border': 'US-Mexico Border', 'date': '02/01/2019 12:00:00 AM', 'measure': 'Pedestrians', 'converted_date': datetime.datetime(2019, 2, 1, 0, 0), 'TotalEntries': 172163},
-      'US-Mexico Border01/01/2019 12:00:00 AMPedestrians': 
-    {'border': 'US-Mexico Border', 'date': '01/01/2019 12:00:00 AM', 'measure': 'Pedestrians', 'converted_date': datetime.datetime(2019, 1, 1, 0, 0), 'TotalEntries': 56810}}, 
-    {'US-Canada Border02/01/2019 12:00:00 AMTruck Containers Empty': 
-    {'border': 'US-Canada Border', 'date': '02/01/2019 12:00:00 AM', 'measure': 'Truck Containers Empty', 'converted_date': datetime.datetime(2019, 2, 1, 0, 0), 'TotalEntries': 1319}}])
-
-
-
-
+{'US-Canada BorderTruck Containers Full': 
+{'03/01/2019 12:00:00 AM': 
+{'border': 'US-Canada Border', 'date': '03/01/2019 12:00:00 AM', 'measure': 'Truck Containers Full', 'converted_date': datetime.datetime(2019, 3, 1, 0, 0), 'TotalEntries': 6483, 'TotalAverage': 0}}, 'US-Canada BorderTrains': {'03/01/2019 12:00:00 AM': {'border': 'US-Canada Border', 'date': '03/01/2019 12:00:00 AM', 'measure': 'Trains', 'converted_date': datetime.datetime(2019, 3, 1, 0, 0), 'TotalEntries': 19, 'TotalAverage': 0}}, 'US-Mexico BorderPedestrians': {'03/01/2019 12:00:00 AM': {'border': 'US-Mexico Border', 'date': '03/01/2019 12:00:00 AM', 'measure': 'Pedestrians', 'converted_date': datetime.datetime(2019, 3, 1, 0, 0), 'TotalEntries': 346158, 'TotalAverage': 191710}, '02/01/2019 12:00:00 AM': {'border': 'US-Mexico Border', 'date': '02/01/2019 12:00:00 AM', 'measure': 'Pedestrians', 'converted_date': datetime.datetime(2019, 2, 1, 0, 0), 'TotalEntries': 172163, 'TotalAverage': 114486}, '01/01/2019 12:00:00 AM': {'border': 'US-Mexico Border', 'date': '01/01/2019 12:00:00 AM', 'measure': 'Pedestrians', 'converted_date': datetime.datetime(2019, 1, 1, 0, 0), 'TotalEntries': 56810, 'TotalAverage': 0}}, 'US-Canada BorderTruck Containers Empty': {'02/01/2019 12:00:00 AM': {'border': 'US-Canada Border', 'date': '02/01/2019 12:00:00 AM', 'measure': 'Truck Containers Empty', 'converted_date': datetime.datetime(2019, 2, 1, 0, 0), 'TotalEntries': 1319, 'TotalAverage': 0}}}
  # does sorting by date time work?
  # where can we make things more efficient? 

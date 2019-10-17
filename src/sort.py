@@ -28,6 +28,9 @@ import json
 #import datetime
 from dateutil import parser
 import hashlib
+import math
+#import helpers
+
 
 class EntryCollection:
     def __init__(self):
@@ -42,7 +45,7 @@ class EntryCollection:
 
         # the two levels of hashes
         top_hash = inner_dict['border'] + inner_dict['measure']
-        mid_hash = inner_dict['border'] + inner_dict['date'] + inner_dict['measure']
+        mid_hash = inner_dict['date']
 
         # brand new border and measure combination
         # a lot of people do this don't they?
@@ -68,7 +71,6 @@ class EntryCollection:
             inner_dict.pop('value')
             mid_to_insert[mid_hash] = inner_dict 
             self.entrydict[top_hash] = mid_to_insert
-
 
 
 class Entry:
@@ -100,10 +102,17 @@ class Entry:
         return mydate
 
 
+# this is for the strange way that python 3.7 does the rounding
+def myround(numtoRound):
+    if numtoRound - math.floor(numtoRound >= 0.5):
+        return math.ceil(numtoRound)
+    else:
+        return math.floor(numtoRound)
+
 def main():
     AllEntries = EntryCollection()
-    file_name = "/Users/willshin/Development/InsightCodingChallenge/input/Border_Crossing_test.csv"
-    #file_name = "/Users/willshin/Development/InsightCodingChallenge/input/Border_Crossing_Entry_Data.csv"
+    #file_name = "/Users/willshin/Development/InsightCodingChallenge/input/Stage1.csv"
+    file_name = "/Users/willshin/Development/InsightCodingChallenge/input/Border_Crossing_Entry_Data_first100.csv"
     f = open(file_name)
     header = f.readline()
     for line in f.readlines():
@@ -113,13 +122,58 @@ def main():
 
     
     ListOfAllEntries = AllEntries.entrydict
-    # printing list
-    print (ListOfAllEntries)
-    
-    # sorting list
-    #print (sorted(ListOfAllEntries, key = lambda i: (i['converted_date'], i['TotalEntries'], i['measure'], i['border']), reverse=True))
-    # this is 
+    #print(ListOfAllEntries)
+    # add the averages
 
+    # let's sort and do an average first
+
+    current_border_types = ListOfAllEntries.keys()
+    for current_border_type in current_border_types:
+        current_dates = ListOfAllEntries[current_border_type]
+        current_dates_list = sorted(current_dates, reverse=False)
+        
+        number_seen = 0
+        running_total = 0
+        prev_total = 0
+        # loop through dates and make running average
+        for current_date in current_dates_list:
+            # running total
+            current_entry_dict = ListOfAllEntries[current_border_type][current_date]
+            running_total += prev_total
+            prev_total = current_entry_dict['TotalEntries']
+            if number_seen >= 1:
+                #current_entry_dict['TotalAverage'] = round(running_total / number_seen, ndigits=None)
+                current_entry_dict['TotalAverage'] = myround(running_total / number_seen)
+                number_seen += 1
+            else:
+                current_entry_dict['TotalAverage'] = 0
+                number_seen += 1
+            ListOfAllEntries[current_border_type][current_date] = current_entry_dict
+    
+
+    FinalListOfDictionaries = []
+    current_border_types = ListOfAllEntries.keys()
+    print (ListOfAllEntries)
+    for current_border_type in current_border_types:
+        current_dates_list = ListOfAllEntries[current_border_type]
+        for current_date in current_dates_list:
+            # running total
+            current_entry_dict = ListOfAllEntries[current_border_type][current_date]
+            FinalListOfDictionaries.append(current_entry_dict)
+    #print (FinalListOfDictionaries)
+    FinalListOfDictionaries = sorted(FinalListOfDictionaries, key = lambda i: (i['date'], i['TotalEntries'], i['measure'], i['border']), reverse=True)
+
+    print ('Border,Date,Measure,Value,Average')
+    for i in FinalListOfDictionaries:
+        # Border,Date,Measure,Value,Average
+        print (i['border'] + '\t' + i['date'] + '\t' + i['measure'] + '\t' + str(i['TotalEntries']) + '\t' + str(i['TotalAverage']))
+    # output as CSV
+    # Date
+    # Value (or number of crossings)
+    # Measure
+    # Border
+    # sorted(lis, key = lambda i: (i['age'], i['name'])) 
+    #print (FinalListOfDictionaries)
 if __name__ == "__main__":
     main()
 
