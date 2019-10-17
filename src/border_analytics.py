@@ -25,6 +25,7 @@ Border
 """
 
 import json
+import sys
 #import datetime
 from dateutil import parser
 import hashlib
@@ -110,11 +111,14 @@ def myround(numtoRound):
         return math.floor(numtoRound)
 
 def main():
+    # add check 
+    infile = sys.argv[1]
+    outfile = sys.argv[2]
+
     AllEntries = EntryCollection()
-    #file_name = "/Users/willshin/Development/InsightCodingChallenge/input/Stage1.csv"
-    file_name = "/Users/willshin/Development/InsightCodingChallenge/input/Border_Crossing_Entry_Data_first100.csv"
-    f = open(file_name)
+    f = open(infile)
     header = f.readline()
+    #print(header)
     for line in f.readlines():
         line_fields = line.strip().split(",")
         myEntry = Entry(line_fields[3], line_fields[4], line_fields[5], line_fields[6])
@@ -153,7 +157,7 @@ def main():
 
     FinalListOfDictionaries = []
     current_border_types = ListOfAllEntries.keys()
-    print (ListOfAllEntries)
+    #print (ListOfAllEntries)
     for current_border_type in current_border_types:
         current_dates_list = ListOfAllEntries[current_border_type]
         for current_date in current_dates_list:
@@ -163,10 +167,14 @@ def main():
     #print (FinalListOfDictionaries)
     FinalListOfDictionaries = sorted(FinalListOfDictionaries, key = lambda i: (i['date'], i['TotalEntries'], i['measure'], i['border']), reverse=True)
 
-    print ('Border,Date,Measure,Value,Average')
+
+    # write to output file 
+    out = open(outfile, 'w')
+
+    out.write('Border,Date,Measure,Value,Average\n')
     for i in FinalListOfDictionaries:
         # Border,Date,Measure,Value,Average
-        print (i['border'] + '\t' + i['date'] + '\t' + i['measure'] + '\t' + str(i['TotalEntries']) + '\t' + str(i['TotalAverage']))
+        out.write(i['border'] + ',' + i['date'] + ',' + i['measure'] + ',' + str(i['TotalEntries']) + ',' + str(i['TotalAverage']) +'\n')
     # output as CSV
     # Date
     # Value (or number of crossings)
