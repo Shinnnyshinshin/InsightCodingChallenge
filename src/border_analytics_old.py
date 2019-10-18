@@ -1,41 +1,19 @@
 
-
-"""
-
-Port Name,State,Port Code,Border,Date,Measure,Value
-Metaline Falls,Washington,3025,US-Canada Border,06/01/2019 12:00:00 AM,Buses,7
-
-
-1. Sum the total number of crossings (Value) of each type of vehicle or equipment, 
-or passengers or pedestrians, that crossed the border that month,
-regardless of what port was used.
-
-2. Calculate the running monthly average of total crossings, 
-rounded to the nearest whole number,  for that combination of 
-Border and Measure, or means of crossing.
-
-# this is the second part 
-How do we sort? 
-The lines should be sorted in descending order by
-Date
-Value (or number of crossings)
-Measure
-Border
-
-"""
-
 import time
-
 import json
 import sys
-#import datetime
 from dateutil import parser
 import hashlib
 import math
-#import helpers
+
+
+AllEntryCollection = None
 
 
 class EntryCollection:
+    """
+        This collection o f
+    """
     def __init__(self):
         #"HASH FUNCTION" : [ Object _ : running count, running average, whatever more values that we need here]
         self.entrydict = {}
@@ -74,6 +52,9 @@ class EntryCollection:
             inner_dict.pop('value')
             mid_to_insert[mid_hash] = inner_dict 
             self.entrydict[top_hash] = mid_to_insert
+    
+    def keys(self):
+        return self.entrydict.keys()
 
 
 class Entry:
@@ -113,25 +94,75 @@ def myround(numtoRound):
         return math.floor(numtoRound)
 
 def main():
-    # add check 
-    infile = sys.argv[1]
-    outfile = sys.argv[2]
+    
+    # needed indices
 
-    AllEntries = EntryCollection()
-    f = open(infile)
-    header = f.readline()
-    #print(header)
-    for line in f.readlines():
+    header_indices = {"Date":None, "Value":None, "Border":None, "Measure":None}
+
+    # check if all input files are there
+    if len(sys.argv) < 3:
+        print("ERROR: Files are not complete")
+        #raise IndexError("Files Missing")
+        return
+
+    # check files 
+    try:
+        infile = sys.argv[1]
+        infile_handler = open(infile)
+    except OSError:
+        print("cannot open", infile)
+    else:
+        # file should have header
+        header = infile_handler.readline()
+        header_fields = header.strip().split(',')
+        for key in header_indices.keys():
+            header_indices[key] = header_fields.index(key)
+
+
+    # check outfile early-on too 
+    try:
+        outfile = sys.argv[2]
+        outfile_handler = open(outfile, 'w')
+    except OSError:
+        print("cannot open", outfile)
+
+
+    # if anything is not right
+    if None in header_fields:
+        print("ERROR: Needed fields do not exist in input file")    
+        return
+    
+    # prepare to read all lines
+    AllEntryCollection = EntryCollection()
+    
+    # store them once
+    border_ind = header_indices["Border"]
+    date_ind = header_indices["Date"]
+    measure_ind = header_indices["Measure"]
+    value_ind = header_indices["Value"]
+    
+
+    # reading files
+    while True:
+        line = infile_handler.readline()
+        if not line:
+            break
         line_fields = line.strip().split(",")
-        myEntry = Entry(line_fields[3], line_fields[4], line_fields[5], line_fields[6])
-        AllEntries.add_entry(myEntry)
+        myEntry = Entry(line_fields[border_ind], line_fields[date_ind], line_fields[measure_ind],  line_fields[value_ind])
+        AllEntryCollection.add_entry(myEntry)
+    # don't forget
+    infile_handler.close()
+
+
 
     
-    ListOfAllEntries = AllEntries.entrydict
+
+    ListOfAllEntries = AllEntryCollection.entrydict
     #print(ListOfAllEntries)
     # add the averages
 
     # let's sort and do an average first
+
 
     current_border_types = ListOfAllEntries.keys()
     for current_border_type in current_border_types:
@@ -155,7 +186,10 @@ def main():
                 current_entry_dict['TotalAverage'] = 0
                 number_seen += 1
             ListOfAllEntries[current_border_type][current_date] = current_entry_dict
+
+
     
+
 
     FinalListOfDictionaries = []
     current_border_types = ListOfAllEntries.keys()
@@ -165,43 +199,21 @@ def main():
             # running total
             current_entry_dict = ListOfAllEntries[current_border_type][current_date]
             FinalListOfDictionaries.append(current_entry_dict)
+    #print (FinalListOfDictionaries)
     FinalListOfDictionaries = sorted(FinalListOfDictionaries, key = lambda i: (i['date'], i['TotalEntries'], i['measure'], i['border']), reverse=True)
 
-    out = open(outfile, 'w')
-    out.write('Border,Date,Measure,Value,Average\n')
+    
+    outfile_handler.write('Border,Date,Measure,Value,Average\n')
     for i in FinalListOfDictionaries:
         # Border,Date,Measure,Value,Average
-        out.write(i['border'] + ',' + i['date'] + ',' + i['measure'] + ',' + str(i['TotalEntries']) + ',' + str(i['TotalAverage']) +'\n')
-if __name__ == "__main__":
+        outfile_handler.write(i['border'] + ',' + i['date'] + ',' + i['measure'] + ',' + str(i['TotalEntries']) + ',' + str(i['TotalAverage']) +'\n')
+    
+    
+    outfile_handler.close()
+    # exit gracefully
+    sys.exit(0)
 
+if __name__ == "__main__":
     start_time = time.time()
     main()
     print("--- %s seconds ---" % (time.time() - start_time))
-
-
-"""
-Questions?  :
-
-set(['Personal Vehicle Passengers', 'Trucks', 'Bus Passengers', 'Pedestrians', 'Rail Containers Empty', 'Buses', 'Personal Vehicles', 'Truck Containers Full', 'Trains', 'Truck Containers Empty', 'Train Passengers', 'Rail Containers Full'])
-
-are bus passengers and busses the same? 
-how much varaibility should I take into account
-
-for the dates / all be 1st? or add to month? : soemthign for later
-
-Are all the codes and locations going to match? 
-## ok 
-
-To think about : 
-
-Column order switched
-
-
-{   []
-    { []
-        {
-            [] only one    
-        }
-    }
-}
-"""
