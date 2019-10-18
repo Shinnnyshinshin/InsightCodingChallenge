@@ -1,29 +1,34 @@
 
 import time
-import json
 import sys
-from dateutil import parser
-import hashlib
-import math
-
-import myutils
-from mytree import Tree
-from mynode import Node
+from my_tree import Tree
+from my_node import Node
 
 
-# tree to contain all
-AllEntries = None
+"""[summary]
+    * to do  : it now runs in 1 second
+        * hash function
+
+            before : 
+                1.1279170513153076
+            after: 
+                3.5635249614715576 seconds
+                    * not that long, it wont help 
+
+
+        * incomplete data 
+        * output summary
+        * documentation and readME
+        * pep naming
+        * 
+"""
 
 def main():
-    
     # needed indices
+    header_indices = {"Date": None, "Value": None, "Border": None, "Measure": None}
 
-    header_indices = {"Date":None, "Value":None, "Border":None, "Measure":None}
-
-    # check if all input files are there
     if len(sys.argv) < 3:
         print("ERROR: Files are not complete")
-        #raise IndexError("Files Missing")
         return
 
     # check files 
@@ -58,31 +63,34 @@ def main():
     measure_ind = header_indices["Measure"]
     value_ind = header_indices["Value"]
 
-    AllEntries = Tree()
+    all_entries = Tree()
+    all_missing_lines = []
     # reading files
     while True:
         line = infile_handler.readline()
         if not line:
             break
         line_fields = line.strip().split(",")
-        myNode = Node(line_fields[border_ind], line_fields[date_ind], line_fields[measure_ind],  line_fields[value_ind])
-        AllEntries.add_node(myNode)
-
+        try:
+            myNode = Node(line_fields[border_ind], line_fields[date_ind], line_fields[measure_ind],  line_fields[value_ind])
+            all_entries.add_node(myNode)
+        except:
+            print("WARNING: line missing values. skipping")
+            all_missing_lines.append(line)
+            continue
     # don't forget
     infile_handler.close()
 
-    # calculating the running averages 
-    AllEntries.add_averages()
-    # output as sorted list
 
-    FinalListToPrint = AllEntries.as_sorted_list()
+    # calculating the running averages 
+    all_entries.add_averages()
+    # output as sorted list
+    final_list_to_print = all_entries.as_sorted_list()
     
     outfile_handler.write('Border,Date,Measure,Value,Average\n')
-    for line in FinalListToPrint:
-        print (line)
+    for line in final_list_to_print:
         outfile_handler.write(line +'\n') 
     outfile_handler.close()
-
 
 if __name__ == "__main__":
     start_time = time.time()

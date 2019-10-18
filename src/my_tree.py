@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from mynode import Node
-from myutils import myround
+from my_node import Node
+from my_utils import myround
 
 class Tree(object):
     """Tree objects are made of Node(s) stored in _nodes ."""
@@ -20,17 +20,15 @@ class Tree(object):
     def _top_tree(self):
         return self._nodes["ROOT"]
 
-    def _addNode(self, top_key, mid_key, node):
+    def _add_node_to_tree(self, top_key, mid_key, node):
         mid_tree = {}
         mid_tree[mid_key] = node
         self._top_tree()[top_key] = mid_tree
 
-    def _updateNode(self, top_key, mid_key, node):
+    def _update_node_to_tree(self, top_key, mid_key, node):
         self._top_tree()[top_key][mid_key] = node
 
     def add_node(self, node):
-        """
-        """
 
         top_key = node.get_border() + node.get_measure()
         mid_key = node.get_date()
@@ -43,13 +41,13 @@ class Tree(object):
                 ref_node = mid_tree[mid_key]
                 current_count = ref_node.get_total_entries()
                 ref_node.set_total_entries(node.get_value() + current_count)
-                self._updateNode(top_key, mid_key, ref_node)
+                self._update_node_to_tree(top_key, mid_key, ref_node)
             # add nod
             else:
-                self._updateNode(top_key, mid_key, node)
+                self._update_node_to_tree(top_key, mid_key, node)
         else: 
             # brand new entry
-            self._addNode(top_key, mid_key, node)
+            self._add_node_to_tree(top_key, mid_key, node)
 
     def add_averages(self):
         all_top_keys = self._top_tree().keys()
@@ -73,27 +71,26 @@ class Tree(object):
                     number_seen += 1
                 else:
                     number_seen += 1
-                self._updateNode(top_key, current_date, current_node)
+                self._update_node_to_tree(top_key, current_date, current_node)
     
     def as_sorted_list(self):
-        FinalListOfDictionaries = []
-        
+        all_nodes_as_dicts = []
+        to_print = []
         # traverse tree
         for top_key in self._top_tree().keys():
             all_mid_keys = self._top_tree()[top_key]
             for mid_key in all_mid_keys:
                 current_node = self._top_tree()[top_key][mid_key]
-                FinalListOfDictionaries.append(current_node.as_dict())
+                all_nodes_as_dicts.append(current_node.as_dict())
         # sort
-        FinalListOfDictionaries = sorted(FinalListOfDictionaries, key = lambda i: (i['date'], i['totalentries'], i['measure'], i['border']), reverse=True)
+        all_nodes_as_dicts = sorted(all_nodes_as_dicts, key = lambda i: (i['date'], i['totalentries'], i['measure'], i['border']), reverse=True)
 
         # to Print
-        list_to_print = []
-        for node_dict in FinalListOfDictionaries:
-            list_to_print.append(node_dict['border'] + ',' + 
+        for node_dict in all_nodes_as_dicts:
+            to_print.append(node_dict['border'] + ',' + 
                                  node_dict['date'] + ','  +
                                  node_dict['measure'] + ',' + 
                                  str(node_dict['totalentries']) + ',' +
                                  str(node_dict['runningaverage']))
 
-        return (list_to_print)
+        return (to_print)
