@@ -2,10 +2,10 @@
 
 ## Table of Contents
 1. [Approach](README.md#Approach)
-2. [border_analytics.py](README.md##Main function)
-2. [my_node.py](README.md##Node Class)
-2. [my_tree.py](README.md##Tree Class)
-2. [my_utils.py](README.md##Math Function)
+2. [border_analytics.py](README.md#Main function)
+2. [my_node.py](README.md#Node Class)
+2. [my_tree.py](README.md#Tree Class)
+2. [my_utils.py](README.md#Math Function)
 
 ## Approach
 The analysis and summary for the border crossing dataset was implemented using a Tree data structure using a set of nested Python dictionaries. The implemention also involved the creation of a Tree and Node class. 
