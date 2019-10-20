@@ -27,7 +27,7 @@ class Node:
     
         # non parameter value
         self.total_entries = self.value
-        self.running_average = 0 
+        self.running_average = 0.0
 
     def get_border(self):
         return self.border

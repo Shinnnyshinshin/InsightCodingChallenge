@@ -5,6 +5,6 @@
 
 
 # this is the final version : rewrite to not do the test file thing
-#python ./src/border_analytics.py ./input/Border_Crossing_test.csv ./output/report.csv
-python ./src/border_analytics.py ./input/Border_Crossing_Entry_Data.csv ./output/report.csv
+python ./src/border_analytics.py ./input/Border_Crossing_test.csv ./output/report.csv
+#python ./src/border_analytics.py ./input/Border_Crossing_Entry_Data.csv ./output/report.csv
 #python ./src/border_analytics.py ./input/Border_Crossing_missing.csv ./output/report.csv
