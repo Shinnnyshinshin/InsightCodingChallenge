@@ -7,21 +7,21 @@ class Node:
         else:
             raise ValueError("border is missing")
 
-        if date is not "":
+        if date is not None:
             self.date = date
         else:
             raise ValueError("date is missing")
 
-        if measure is not "":
+        if measure is not None:
             self.measure = measure
         else:
             raise ValueError("measure is missing")
 
-        if value is not "":
-            if value.isnumeric() is False:
-                raise TypeError("value cannot be cast as int")
-            else:            
+        if value is not None:
+            try:
                 self.value = int(value)
+            except:
+                raise TypeError("value cannot be cast as int")
         else:
             raise ValueError("value is missing")
     
