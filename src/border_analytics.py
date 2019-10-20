@@ -55,12 +55,15 @@ def main():
         line_fields = line.strip().split(",")
         try:
             myNode = Node(line_fields[border_ind], line_fields[date_ind], line_fields[measure_ind],  line_fields[value_ind])
-            all_entries.add_node(myNode)
+
         except ValueError as e:
             print("WARNING: line missing values. skipping")
             print(e)
             all_missing_lines.append(line)
             continue
+        
+        all_entries.add_node(myNode)
+
     # don't forget
     infile_handler.close()
 
