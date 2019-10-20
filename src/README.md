@@ -2,7 +2,7 @@
 
 ## Table of Contents
 1. [Approach](README.md#Approach)
-2. [border_analytics.py](README.md#Main function)
+2. [border_analytics.py](README.md#Main function  (border_analytics.py))
 2. [my_node.py](README.md#Node Class)
 2. [my_tree.py](README.md#Tree Class)
 2. [my_utils.py](README.md#Math Function)
