@@ -1,6 +1,13 @@
 
 class Node:
-    def __init__(self, border, date, measure, value):    
+    def __init__(self, border, date, measure, value):   
+
+        self.border = ""
+        self.date = ""
+        self.measure = ""
+        self.value = ""
+        self.total_entries = ""
+        self.running_average = 0
 
         if border is not "":
             self.border = border
@@ -20,35 +27,21 @@ class Node:
         if value is not None:
             try:
                 self.value = int(value)
+                self.total_entries = int(value)
             except:
                 raise TypeError("value cannot be cast as int")
         else:
             raise ValueError("value is missing")
     
-        # non parameter value
-        self.total_entries = self.value
-        self.running_average = 0
-
+        
     def get_border(self):
         return self.border
-
- #   def set_border(self, x):
- #       if x is not None:
- #           self.border = x
- #       else:
- #           raise ValueError("border is missing")
 
     def get_date(self):
         return self.date
 
     def get_measure(self):
         return self.measure
-
-    def set_measure(self, x):
-        if x is not None:
-            self.measure = x
-        else:
-            raise ValueError("measure is missing")
 
     def get_value(self):
         return self.value

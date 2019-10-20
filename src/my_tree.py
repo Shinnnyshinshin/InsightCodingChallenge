@@ -30,7 +30,7 @@ class Tree(object):
 
     def add_node(self, node):
 
-        top_key = node.get_border() + node.get_measure()
+        top_key = node.get_measure() + node.get_border()
         mid_key = node.get_date()
 
         if top_key in self._top_tree():

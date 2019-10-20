@@ -50,7 +50,6 @@ def main():
     # reading files
     while True:
         line = infile_handler.readline()
-        print(line)
         if not line:
             break
         line_fields = line.strip().split(",")
