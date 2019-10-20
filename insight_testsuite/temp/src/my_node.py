@@ -18,10 +18,10 @@ class Node:
             raise ValueError("measure is missing")
 
         if value is not "":
-            if value.isnumeric() is False:
-                raise TypeError("value cannot be cast as int")
-            else:            
+            try:
                 self.value = int(value)
+            except:
+                raise TypeError("value cannot be cast as int")
         else:
             raise ValueError("value is missing")
     

@@ -78,10 +78,10 @@ def main():
         outfile_handler.write(line +'\n') 
     outfile_handler.close()
 
-    print("hi will")
-    for line in all_missing_lines:
-        print(line)
+    #print("hi will")
+    #for line in all_missing_lines:
+    #    print(line)
 if __name__ == "__main__":
-    start_time = time.time()
+    #start_time = time.time()
     main()
-    print("--- %s seconds ---" % (time.time() - start_time))
+    #print("--- %s seconds ---" % (time.time() - start_time))
