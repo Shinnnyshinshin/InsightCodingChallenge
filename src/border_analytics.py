@@ -5,24 +5,6 @@ from my_tree import Tree
 from my_node import Node
 
 
-"""[summary]
-    * to do  : it now runs in 1 second
-        * hash function
-
-            before : 
-                1.1279170513153076
-            after: 
-                3.5635249614715576 seconds
-                    * not that long, it wont help 
-
-
-        * incomplete data 
-        * output summary
-        * documentation and readME
-        * pep naming
-        * 
-"""
-
 def main():
     # needed indices
     header_indices = {"Date": None, "Value": None, "Border": None, "Measure": None}
@@ -74,8 +56,9 @@ def main():
         try:
             myNode = Node(line_fields[border_ind], line_fields[date_ind], line_fields[measure_ind],  line_fields[value_ind])
             all_entries.add_node(myNode)
-        except:
+        except ValueError as e:
             print("WARNING: line missing values. skipping")
+            print(e)
             all_missing_lines.append(line)
             continue
     # don't forget
@@ -92,6 +75,9 @@ def main():
         outfile_handler.write(line +'\n') 
     outfile_handler.close()
 
+    print("hi will")
+    for line in all_missing_lines:
+        print(line)
 if __name__ == "__main__":
     start_time = time.time()
     main()
