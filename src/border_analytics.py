@@ -6,6 +6,10 @@ from my_node import Node
 
 
 def main():
+    """
+    The file handles all of the file I/O, as well creating the main Tree data stucture used. 
+    It also handles the reading of the input file, creation of the Nodes, and adding them to the Tree.
+    """
     # needed indices
     header_indices = {"Date": None, "Value": None, "Border": None, "Measure": None}
 
@@ -13,7 +17,7 @@ def main():
         print("ERROR: Files are not complete")
         return
 
-    # check files 
+    # check if input file and header line exists 
     try:
         infile = sys.argv[1]
         infile_handler = open(infile)
@@ -26,7 +30,7 @@ def main():
         for key in header_indices.keys():
             header_indices[key] = header_fields.index(key)
 
-    # check outfile early-on too 
+    # check outfile
     try:
         outfile = sys.argv[2]
         outfile_handler = open(outfile, 'w')
@@ -47,6 +51,7 @@ def main():
 
     all_entries = Tree()
     all_missing_lines = []
+    
     # reading files
     while True:
         line = infile_handler.readline()
@@ -55,32 +60,27 @@ def main():
         line_fields = line.strip().split(",")
         try:
             myNode = Node(line_fields[border_ind], line_fields[date_ind], line_fields[measure_ind],  line_fields[value_ind])
-
         except ValueError as e:
             print("WARNING: line missing values. skipping")
             print(e)
             all_missing_lines.append(line)
             continue
-        
         all_entries.add_node(myNode)
 
-    # don't forget
+    # don't forget to close the file handle
     infile_handler.close()
-
 
     # calculating the running averages 
     all_entries.add_averages()
     # output as sorted list
     final_list_to_print = all_entries.as_sorted_list()
-    
+
     outfile_handler.write('Border,Date,Measure,Value,Average\n')
     for line in final_list_to_print:
         outfile_handler.write(line +'\n') 
     outfile_handler.close()
 
-    #print("hi will")
-    #for line in all_missing_lines:
-    #    print(line)
+
 if __name__ == "__main__":
     #start_time = time.time()
     main()
