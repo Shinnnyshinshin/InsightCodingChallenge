@@ -7,8 +7,10 @@ from my_node import Node
 
 def main():
     """
-    The file handles all of the file I/O, as well creating the main Tree data stucture used. 
-    It also handles the reading of the input file, creation of the Nodes, and adding them to the Tree.
+    The main functions all of the file I/O, as well creating the main Tree data stucture used. 
+    The main function handles the reading of the input file, creation of the Nodes, and adding them to the Tree.
+    It also calls the necessary functions to calculate the running average and output to final csv file. 
+
     """
     # needed indices
     header_indices = {"Date": None, "Value": None, "Border": None, "Measure": None}
@@ -37,7 +39,6 @@ def main():
         outfile_handler = open(outfile, 'w')
     except OSError:
         print("cannot open", outfile)
-        return
 
 
     # if anything is not right
@@ -84,6 +85,4 @@ def main():
 
 
 if __name__ == "__main__":
-    #start_time = time.time()
     main()
-    #print("--- %s seconds ---" % (time.time() - start_time))

@@ -4,7 +4,17 @@ from my_node import Node
 from my_utils import myround
 
 class Tree(object):
-    """Tree objects are made of Node(s) stored in the _nodes dictionary"""
+    """Tree objects are made of Node(s) stored in a dictionary called _nodes. 
+
+    It consists of a ROOT, as well as additional levels. 
+
+    The bottom level is consisted of Node objects, which correspond to a Measure and Border pair along with the assoiated Date of entry
+    The next level up is consisted of Date strings, and the next level is the Meausre and Border pair
+
+    Thus by traversing the tree, the program is able to quickly access each Node along with Measure, Border and Date associated with the Node. 
+
+    The Tree class handles the creation of the Tree data struction, the addition of Nodes to the tree, as well as the traversal, averaging and outputting the Tree as a sorted list
+    """
 
     def __init__(self):
         """
@@ -15,13 +25,13 @@ class Tree(object):
     
     def _add_root(self):
         """
-            Add ROOT 
+            Add ROOT to tree. 
         """
         self._nodes["ROOT"] = {}
 
     def _top_tree(self):
         """
-        Returns 
+        Returns top_key level dictionary, which describes the Measure and Border. 
         
         Returns:
             dict -- a dictionary containing th
@@ -30,10 +40,10 @@ class Tree(object):
 
     def _add_node_to_tree(self, top_key, mid_key, node):
         """
-            Private function to add new node to tree.
+            Private function to add new Node to tree.
         
         Arguments:
-            top_key {string} -- Measure and Border 
+            top_key {string} -- Measure and Border to add
             mid_key {string} -- Date to add
             node {Node} -- Node object to add
         """
@@ -43,10 +53,10 @@ class Tree(object):
 
     def _update_node_to_tree(self, top_key, mid_key, node):
         """
-            Private function to update node in tree.
+            Private function to update Node in tree.
     
         Arguments:
-            top_key {string} -- Measure and Border 
+            top_key {string} -- Measure and Border to update
             mid_key {string} -- Date to update
             node {Node} -- Node object to update
         """
@@ -54,7 +64,7 @@ class Tree(object):
 
     def add_node(self, node):
         """
-            Determines if node will be added or updated. Performs addition or update.
+            Determines if Node will be added or updated. Performs addition or update.
         
         Arguments:
             node {Node} -- Node object to be added to tree
@@ -71,7 +81,7 @@ class Tree(object):
                 current_count = ref_node.get_total_entries()
                 ref_node.set_total_entries(node.get_value() + current_count)
                 self._update_node_to_tree(top_key, mid_key, ref_node)
-            # add nod
+            # add node
             else:
                 self._update_node_to_tree(top_key, mid_key, node)
         else: 
@@ -80,7 +90,7 @@ class Tree(object):
 
     def add_averages(self):
         """
-            Traverses the tree and calculates running average to be outputted
+            Traverses the tree and calculates running average to be outputted to final CSV file
         """
         all_top_keys = self._top_tree().keys()
         for top_key in all_top_keys:
@@ -104,7 +114,7 @@ class Tree(object):
     
     def as_sorted_list(self):
         """
-            Traverses tree and outputs all nodes a sorted list. 
+            Traverses tree and outputs all Nodes a sorted list. 
         
         Returns:
             list -- sorted list of strings to be outputted to csv file

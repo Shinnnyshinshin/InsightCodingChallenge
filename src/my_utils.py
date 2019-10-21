@@ -2,7 +2,7 @@
 import math
 def myround(numtoRound):
     """
-    Over-write python's default rounding behavior. 
+    Over-write Python's default rounding behavior. 
     For equally close multiples (ie 0.5) the function rounds up to the nearest integer.     
     Arguments:
         numtoRound {double} -- value to round. 

@@ -45,17 +45,17 @@ class Node:
         else:
             raise ValueError("border is missing")
 
-        if date is not None:
+        if date is not "":
             self.date = date
         else:
             raise ValueError("date is missing")
 
-        if measure is not None:
+        if measure is not "":
             self.measure = measure
         else:
             raise ValueError("measure is missing")
 
-        if value is not None:
+        if value is not "":
             try:
                 self.value = int(value)
                 self.total_entries = int(value)
