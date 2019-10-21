@@ -23,6 +23,7 @@ def main():
         infile_handler = open(infile)
     except OSError:
         print("cannot open", infile)
+        return
     else:
         # file should have header
         header = infile_handler.readline()
@@ -36,6 +37,7 @@ def main():
         outfile_handler = open(outfile, 'w')
     except OSError:
         print("cannot open", outfile)
+        return
 
 
     # if anything is not right
