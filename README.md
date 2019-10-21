@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Approach](README.md#Approach)
 2. [border_analytics.py](README.md#main-function--border_analyticspy)
-3. [my_node.py](README.md#README.md#node-class-my_nodepy)
+3. [my_node.py](README.md#node-class-my_nodepy)
 4. [my_tree.py](README.md#tree-class-my_treepy)
 5. [my_utils.py](README.md#math-function-my_utilspy)
 
